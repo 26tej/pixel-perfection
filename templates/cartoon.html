@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartoonify Image</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', Helvetica, Arial, sans-serif;
+            background-image: url('../static/images/cartoonbg.jpg'); /* Add your background image URL here */
+            background-size: cover; /* Ensures the background covers the whole page */
+            background-position: center; /* Centers the background */
+            background-attachment: fixed; /* Keeps the image fixed while scrolling */
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #0c1421;
+        }
+
+        .navbar a {
+            float: right;
+            font-size: 16px;
+            color: whitesmoke;
+            text-align: center;
+            padding: 16px 24px;
+            text-decoration: none;
+            margin: 10px;
+        }
+
+        .dropdown {
+            float: right;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            color: whitesmoke;
+            padding: 16px 24px;
+            background-color: inherit;
+            font-family: inherit;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .navbar a:hover, .dropdown:hover .dropbtn {
+            background-color: #1C3666;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #1C3666;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-menu a {
+            float: none;
+            color: whitesmoke;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #1C3666;
+            color: #04AA6D;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Container for the form */
+        .container {
+            display: flex;
+            overflow: hidden;
+            background-color: transparent; /* Added transparency to highlight background */
+            padding: 40px 0;
+            justify-content: center;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 90%;
+        }
+
+        .log {
+            background-color: #0c1421;
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 40%;
+        }
+
+        input[type="file"], select {
+            width: 80%;
+            padding: 12px;
+            margin: 8px 0;
+            display: block;
+            border: none;
+            border-radius: 10px;
+            background-color: #5E687B;
+            color: white;
+            outline: none;
+            font-size: 16px;
+        }
+
+        input[type="file"]:focus, select:focus {
+            outline: 1px solid #0C1421;
+        }
+
+        button {
+            margin: 8px 0;
+            padding: 12px 20px;
+            background-color: darkorange;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #ff6600;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #ccc;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        /* Output Section */
+        .output-section {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+
+        .output-section .output {
+            width: 40%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .output-section h3 {
+            margin-bottom: 10px;
+        }
+
+        .output-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="dropdown">
+            <button class="dropbtn">IMAGE AI 
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="16" height="15">
+                    <polyline fill="none" points="5 8.5 12 15.5 19 8.5" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+                </svg>
+            </button>
+            <div class="dropdown-menu">
+                <a href="{{ url_for('removebg') }}">Remove Background</a>
+                <a href="{{ url_for('cartoon') }}">Convert to Cartoon Image</a>
+                <a href="{{ url_for('deblur') }}">Deblur Image</a>
+            </div>
+        </div>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="log">
+            <h1>Cartoonify Your Image</h1>
+            <form method="post" enctype="multipart/form-data">
+                <label for="image">Select Image:</label><br><br>
+                <input type="file" name="image" accept="image/*" required><br><br>
+                <button type="submit">Upload and Cartoonify</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Output Section -->
+    <div class="output-section">
+        <div class="output">
+            <h3>Cartoon Image</h3>
+            {% if processed_image %}
+                <img src="{{ processed_image }}" alt="Cartoon Image">
+            {% else %}
+                <p>No cartoon image to display.</p>
+            {% endif %}
+        </div>
+        <div class="output">
+            <h3>Your Original Image</h3>
+            {% if original_image %}
+                <img src="{{ original_image }}" alt="Original Image">
+            {% else %}
+                <p>No original image to display.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+

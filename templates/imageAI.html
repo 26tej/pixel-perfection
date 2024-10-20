@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image AI Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4;
+            background-image: url('../static/images/mainbg.webp'); /* Add your image URL here */
+            background-size: cover; /* Makes sure the background covers the entire page */
+            background-position: center; /* Centers the background image */
+            background-attachment: fixed; /* Keeps the image fixed in place while scrolling */
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #0c1421;
+        }
+
+        .navbar a {
+            float: right;
+            font-size: 16px;
+            color: whitesmoke;
+            text-align: center;
+            padding: 16px 24px;
+            text-decoration: none;
+            margin: 10px;
+        }
+
+        .dropdown {
+            float: right;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            color: whitesmoke;
+            padding: 16px 24px;
+            background-color: inherit;
+            font-family: inherit;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .navbar a:hover, .dropdown:hover .dropbtn {
+            background-color: #1C3666;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #1C3666;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-menu a {
+            float: none;
+            color: whitesmoke;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #1C3666;
+            color: #04AA6D;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .main-content h1 {
+            color: #0c1421;
+            margin-bottom: 40px;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .feature-card {
+            background-color: white;
+            width: 250px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card a {
+            text-decoration: none;
+            color: #0c1421;
+            font-size: 18px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .feature-card a:hover {
+            color: darkorange;
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            color: darkorange;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="dropdown">
+            <button class="dropbtn">IMAGE AI 
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="16" height="15">
+                    <polyline fill="none" points="5 8.5 12 15.5 19 8.5" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+                </svg>
+            </button>
+            <div class="dropdown-menu">
+                <a href="{{ url_for('removebg') }}">Remove Background</a>
+                <a href="{{ url_for('cartoon') }}">Convert to Cartoon Image</a>
+                <a href="{{ url_for('deblur') }}">Deblur Image</a>
+            </div>
+        </div>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Welcome to Image AI Dashboard</h1>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-image"></i></div>
+                <a href="{{ url_for('removebg') }}">Remove Background</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-paint-brush"></i></div>
+                <a href="{{ url_for('cartoon') }}">Convert to Cartoon Image</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-search-plus"></i></div>
+                <a href="{{ url_for('deblur') }}">Deblur Image</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

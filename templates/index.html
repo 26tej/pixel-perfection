@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIXEL PERFECTION</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('../static/images/pixelbackground.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-right: 15px;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            display: inline;
+            margin: 0 24px;
+        }
+
+        .nav-links a {
+            color: #FFD700;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px black;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px;
+            min-height: 100vh;
+        }
+
+        .content h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+            text-shadow: transparent;
+        }
+
+        .content p {
+            background-color: black;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 24px;
+            max-width: 800px;
+            box-shadow: black;
+        }
+
+        #about {
+            background-color: transparent;
+            padding: 50px 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="title">PIXEL PERFECTION</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li> 
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+        </ul>
+    </div>
+
+    <div id="home" class="section">
+        <div class="content">
+            <h1>Get started for Free</h1>
+            <p>
+              AI Image Generation is a rapidly advancing field within artificial intelligence that focuses on creating realistic or artistic images using machine learning algorithms. This technology has transformative implications across various industries, including entertainment, design, healthcare, and more. Below is a comprehensive overview of AI image generation, covering its principles, techniques, applications, benefits, and challenges.
+            </p>
+        </div>
+    </div>
+
+    <div id="about" class="section">
+        <div class="content">
+            <h1>About Us</h1>
+            <p>
+              Pixel Perfection was founded with the mission to elevate pixel art to new heights. We believe that pixel art is not just a style, but a form of expression that bridges the gap between nostalgia and modern digital artistry. Our platform offers a comprehensive suite of resources, including tutorials, community forums, and showcases of exceptional pixel art from artists around the globe.
+              Whether you're looking to refine your pixel techniques, collaborate with fellow artists, or simply admire the intricate beauty of pixel-based creations, Pixel Perfection provides the tools and community to support your journey. Join us in preserving and advancing the timeless art of pixels!
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

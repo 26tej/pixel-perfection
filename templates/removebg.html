@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Background</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', Helvetica, Arial, sans-serif;
+            background-image: url('../static/images/rembg.jpg'); /* Add your background image URL here */
+            background-size: cover; /* Ensures the background covers the whole page */
+            background-position: center; /* Centers the background */
+            background-attachment: fixed; /* Keeps the image fixed while scrolling */
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #0c1421;
+        }
+
+        .navbar a {
+            float: right;
+            font-size: 16px;
+            color: black;
+            text-align: center;
+            padding: 16px 24px;
+            text-decoration: none;
+            margin: 10px;
+        }
+
+        .dropdown {
+            float: right;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            color: whitesmoke;
+            padding: 16px 24px;
+            background-color: inherit;
+            font-family: inherit;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .navbar a:hover, .dropdown:hover .dropbtn {
+            background-color: transparent;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: transparent;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-menu a {
+            float: none;
+            color: whitesmoke;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #1C3666;
+            color: #04AA6D;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Container for the form */
+        .container {
+            display: flex;
+            overflow: hidden;
+            background-color: transparent;
+            padding: 40px 0;
+            justify-content: center;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 90%;
+        }
+
+        .log {
+            background-color: #0c1421;
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 40%;
+        }
+
+        input[type="file"], select {
+            width: 80%;
+            padding: 12px;
+            margin: 8px 0;
+            display: block;
+            border: none;
+            border-radius: 10px;
+            background-color: #5E687B;
+            color: white;
+            outline: none;
+            font-size: 16px;
+        }
+
+        input[type="file"]:focus, select:focus {
+            outline: 1px solid #0C1421;
+        }
+
+        button {
+            margin: 8px 0;
+            padding: 12px 20px;
+            background-color: darkorange;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #ff6600;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #ccc;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        /* Output Section */
+        .output-section {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+
+        .output-section .output {
+            width: 40%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .output-section h3 {
+            margin-bottom: 10px;
+        }
+
+        .output-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="dropdown">
+            <button class="dropbtn">IMAGE AI 
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="16" height="15">
+                    <polyline fill="none" points="5 8.5 12 15.5 19 8.5" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+                </svg>
+            </button>
+            <div class="dropdown-menu">
+                <a href="{{ url_for('removebg') }}">Remove Background</a>
+                <a href="{{ url_for('cartoon') }}">Convert to Cartoon Image</a>
+                <a href="{{ url_for('deblur') }}">Deblur Image</a>
+            </div>
+        </div>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="log">
+            <h1>Remove Background</h1>
+            <form action="{{ url_for('removebg') }}" method="post" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*" onchange="showimg(event)" required>
+                <div class="note">
+                    NOTE: Image format: JPEG, JPG, PNG (8-bit, 16-bit, 64-bit PNG not supported), BMP, WEBP.<br>
+                    Image size: no more than 3 MB.<br>
+                    Image resolution: less than 1280 x 1280 pixels.
+                </div>
+                <button type="submit">Submit Query</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Output Section -->
+    <div class="output-section">
+        <div class="output">
+            <h3>Image After Background Removal</h3>
+            {% if processed_image %}
+                <img id="output1" src="{{ processed_image }}" alt="Processed Image">
+            {% else %}
+                <p>No processed image to display.</p>
+            {% endif %}
+        </div>
+        <div class="output">
+            <h3>Your Original Image</h3>
+            {% if original_image %}
+                <img id="output" src="{{ original_image }}" alt="Original Image">
+            {% else %}
+                <p>No original image to display.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        var showimg = function(event){
+            var out = document.getElementById('output');
+            out.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>
